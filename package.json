@@ -1,0 +1,38 @@
+{
+  "name": "insomnia-plugin-get-access-token",
+  "version": "0.0.1",
+  "description": "Insomnia plugin to get an access token from authorization URL and save it as a template variable",
+  "private": false,
+  "license": "MIT",
+  "keywords": [
+    "insomnia",
+    "insomnia-plugin",
+    "access-token",
+    "authorization"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jdinicola/insomnia-plugin-get-access-token.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jdinicola/insomnia-plugin-get-access-token/issues"
+  },
+  "homepage": "https://github.com/jdinicola/insomnia-plugin-get-access-token#readme",
+  "author": "Julio Di Nicola <juliodinicola@gmail.com>",
+  "insomnia": {
+    "name": "get-access-token",
+    "displayName": "Get Access Token",
+    "description": "Gets a token and saves it as template variable",
+    "publisher": {
+      "name": "Julio Di Nicola",
+      "icon": "https://avatars.githubusercontent.com/u/3948951"
+    },
+    "images": {
+      "icon": "./assets/icon.svg"
+    }
+  },
+  "main": "main.js",
+  "dependencies": {
+    "jsonpath-plus": "^6.0.1"
+  }
+}
