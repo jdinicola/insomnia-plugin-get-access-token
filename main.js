@@ -11,20 +11,23 @@ module.exports.requestActions = [
 
       const response = await sendRequest(request);
 
-      if (response.statusCode === 200) {
-        const json = JSON.parse(readFileSync(response.bodyPath, 'utf8'));
-        const path = request.headers.filter(header => header.name === 'JSONPath-filter')[0].value;
-        const token = JSONPath({ json, path });
-
-        if (!token.length) {
-          alert('', 'Could not find the access token in response. Please check "JSONPath-filter" request header.');
-          return;
-        }
-
-        setItem('access_token', token);
-
-        alert('Success!', 'Access token saved successfully as <access_token> template variable.');
+      if (![200, 201].includes(response.statusCode)) {
+        alert('', `Request failed [${response.statusCode} ${response.statusMessage}]`);
+        return;
       }
+
+      const json = JSON.parse(readFileSync(response.bodyPath, 'utf8'));
+      const path = request.headers.filter(header => header.name === 'JSONPath-filter')[0].value;
+      const token = JSONPath({ json, path });
+
+      if (!token.length) {
+        alert('', 'Could not find the access token in response. Please check "JSONPath-filter" request header.');
+        return;
+      }
+
+      setItem('access_token', token);
+
+      alert('Success!', 'Access token saved successfully as <access_token> template variable.');
     },
   },
 ];
