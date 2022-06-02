@@ -17,8 +17,14 @@ module.exports.requestActions = [
       }
 
       const json = JSON.parse(readFileSync(response.bodyPath, 'utf8'));
-      const path = request.headers.filter(header => header.name === 'JSONPath-filter')[0].value;
-      const token = JSONPath({ json, path });
+      const header = request.headers.filter(header => header.name === 'JSONPath-filter')[0];
+
+      if (!header) {
+        alert('', 'Missing "JSONPath-filter" request header and/or its value');
+        return;
+      }
+
+      const token = JSONPath({ json, path: header.value });
 
       if (!token.length) {
         alert('', 'Could not find the access token in response. Please check "JSONPath-filter" request header.');
