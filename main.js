@@ -10,24 +10,27 @@ module.exports.requestActions = [
       const { request } = data;
 
       const response = await sendRequest(request);
+      let token;
 
       if (![200, 201].includes(response.statusCode)) {
         alert('', `Request failed [${response.statusCode} ${response.statusMessage}]`);
         return;
       }
 
-      const json = JSON.parse(readFileSync(response.bodyPath, 'utf8'));
-      const header = request.headers.filter(header => header.name === 'JSONPath-filter')[0];
+      const tokenRequestHeader = request.headers.find(header => header.name === 'TokenResponseHeader');
+      const JSONPathFilterRequestHeader = request.headers.find(header => header.name === 'JSONPath-filter');
 
-      if (!header) {
-        alert('', 'Missing "JSONPath-filter" request header and/or its value');
-        return;
+      if (tokenRequestHeader) {
+        token = response.headers.find(header => header.name === tokenRequestHeader.value)?.value;
       }
 
-      const token = JSONPath({ json, path: header.value });
+      if (JSONPathFilterRequestHeader) {
+        const json = JSON.parse(readFileSync(response.bodyPath, 'utf8'));
+        token = JSONPath({ json, path: JSONPathFilterRequestHeader.value });
+      }
 
-      if (!token.length) {
-        alert('', 'Could not find the access token in response. Please check "JSONPath-filter" request header.');
+      if (!token?.length) {
+        alert('', 'Could not get the access token. Please check that the "TokenResponseHeader" or the "JSONPath-filter" request header is present and its value is correct.');
         return;
       }
 
