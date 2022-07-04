@@ -1,6 +1,6 @@
 {
   "name": "insomnia-plugin-get-access-token",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Insomnia plugin to get an access token from authorization URL and save it as a template variable",
   "private": false,
   "license": "MIT",
