@@ -2,7 +2,7 @@
 
 ## Overview
 
-This plugin simply makes a request to an authorization endpoint, extracts the access token from the response using JSONPath and saves it as template variable, so you can use it anywhere (environment, requests, etc.).
+This plugin simply makes a request to an authorization endpoint, extracts the access token from the response body using JSONPath or from a response header. Then saves it as template variable, so you can use it anywhere (environment, requests, etc.).
 
 This was inspired on Swagger's **"Authorize"** button.
 
@@ -26,18 +26,29 @@ This was inspired on Swagger's **"Authorize"** button.
 4. `npm install`
 
 ## Usage
-Create an authorization request, add it the **JSONPath-filter** header with the filter (on JSONPath notation) required for extract the access token from response.
+Create an authorization request, add it the **TokenResponseHeader** header with the name of the response header that contains the token or the **JSONPath-filter** header with the filter value (JSONPath notation).
 
-Example:
+Examples:
 
-```json
-// Authorization response
+```
+// Using response TokenResponseHeader
+Content-Length  36
+Content-Type    application/json
+Access-token    abcdef1234
+...
+
+// TokenResponseHeader would be "Access-token"
+```
+
+```
+// Using JSONPath-filter
 {
   "status": 200,
   "error": false,
   "body": {
     "access_token": "abcdef1234"
-  }
+  },
+  ...
 }
 
 // JSONPath-filter would be "$.body.access_token"
